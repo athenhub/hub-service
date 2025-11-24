@@ -3,6 +3,7 @@ package com.athenhub.hubservice.hub.infrastructure.dto;
 import com.athenhub.hubservice.hub.domain.vo.HubManager;
 import com.athenhub.hubservice.hub.domain.vo.HubManagerId;
 import com.athenhub.hubservice.hub.infrastructure.MemberRole;
+import com.athenhub.hubservice.hub.infrastructure.MemberStatus;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -23,7 +24,7 @@ import java.util.UUID;
  * @param deletedAt 계정 삭제 일시 (삭제되지 않았으면 {@code null})
  * @param deletedBy 계정 삭제 수행자 (삭제되지 않았으면 {@code null})
  * @author 김형섭
- * @since 1.0.0
+ * @since 1.0.0ss
  */
 public record MemberInfo(
     UUID id,
@@ -32,7 +33,7 @@ public record MemberInfo(
     String slackId,
     String organizationName,
     MemberRole role,
-    String status,
+    MemberStatus status,
     LocalDateTime createdAt,
     LocalDateTime updatedAt,
     LocalDateTime deletedAt,
