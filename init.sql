@@ -1,0 +1,1 @@
+CREATE SCHEMA hub_service IF NOT EXIST;

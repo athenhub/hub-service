@@ -1,4 +1,4 @@
-package com.athenhub.projectinterface;
+package com.athenhub.hubservice;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
