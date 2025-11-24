@@ -45,10 +45,10 @@ public interface HubFinder {
   Page<Hub> search(HubSearchCondition searchCondition, Pageable pageable);
 
   /**
-   * 허브의 담당자 정보를 조회한다.
+   * 허브의 관리자 정보를 조회한다.
    *
    * @param hubId 조회할 허브
-   * @return HubId에 해당하는 허브의 담당자 정보
+   * @return HubId에 해당하는 허브의 관리자 정보
    */
   HubManagerInfo findManager(UUID hubId);
 }

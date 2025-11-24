@@ -70,9 +70,9 @@ public class HubManageService implements HubRegister, HubManager {
   }
 
   @Override
-  public void changeAgent(UUID hubId, UUID newAgentId, UUID requestId) {
+  public void changeManager(UUID hubId, UUID newManagerId, UUID requestId) {
     Hub hub = hubFinder.find(hubId);
 
-    hub.changeManager(newAgentId, permissionChecker, memberExistenceChecker, requestId);
+    hub.changeManager(newManagerId, permissionChecker, memberExistenceChecker, requestId);
   }
 }

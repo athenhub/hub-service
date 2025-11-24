@@ -80,12 +80,12 @@ class HubManagerTest {
   }
 
   @Test
-  void changeAgent() {
+  void changeManager() {
     when(permissionChecker.hasManagePermission(any(UUID.class))).thenReturn(true);
     when(memberExistenceChecker.hasMember(any(UUID.class))).thenReturn(true);
 
     UUID newManagerId = UUID.randomUUID();
-    hubManager.changeAgent(hub.getId().toUuid(), newManagerId, requestId);
+    hubManager.changeManager(hub.getId().toUuid(), newManagerId, requestId);
     entityManager.flush();
     entityManager.clear();
 

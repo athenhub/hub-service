@@ -1,7 +1,7 @@
 package com.athenhub.hubservice.hub.domain.vo;
 
 /**
- * 허브 담당자(HubManager) 정보를 표현하는 읽기 전용 DTO(record).
+ * 허브 관리자(HubManager) 정보를 표현하는 읽기 전용 DTO(record).
  *
  * <p>허브에 속한 관리자의 핵심 정보를 보유하며, 조회 응답이나 내부 서비스 간 전달 객체로 사용된다.
  *

@@ -67,14 +67,16 @@ public interface HubRepository extends Repository<Hub, HubId> {
    */
   @Query(
       """
-        SELECT h FROM Hub h
-        WHERE (:keyword IS NULL OR (
-        upper(h.name) LIKE %:keyword%
-        OR upper(h.address.street) LIKE %:keyword%
-        OR upper(h.address.detail) LIKE %:keyword%
-        ))
-        AND (:includeDeleted = TRUE OR h.deletedAt IS NULL)
-     """)
+          SELECT h FROM Hub h
+          WHERE (
+             :keyword IS NULL OR (
+               upper(h.name) LIKE %:keyword%
+               OR upper(h.address.street) LIKE %:keyword%
+               OR upper(h.address.detail) LIKE %:keyword%
+             )
+          )
+          AND (:includeDeleted = TRUE OR h.deletedAt IS NULL)
+      """)
   Page<Hub> search(
       @Param("keyword") String keyword,
       @Param("includeDeleted") boolean includeDeleted,

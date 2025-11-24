@@ -44,11 +44,11 @@ public interface HubManager {
   Hub delete(@NotNull UUID hubId, @NotBlank String deleteBy, @NotNull UUID requestId);
 
   /**
-   * 허브 담당자를 변경한다.
+   * 허브 관리자를 변경한다.
    *
    * @param hubId 변경할 허브 ID (필수)
-   * @param newAgentId 변경할 허브 담당자 ID (필수)
+   * @param newManagerId 변경할 허브 관리자 ID (필수)
    * @param requestId 변경 요청자 (필수)
    */
-  void changeAgent(@NotNull UUID hubId, @NotNull UUID newAgentId, @NotNull UUID requestId);
+  void changeManager(@NotNull UUID hubId, @NotNull UUID newManagerId, @NotNull UUID requestId);
 }

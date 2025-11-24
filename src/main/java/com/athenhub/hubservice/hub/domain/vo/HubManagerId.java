@@ -30,7 +30,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class HubManagerId {
-  @Column(name = "agent_id", nullable = false)
+  @Column(name = "manager_id", nullable = false)
   private UUID id;
 
   /**
