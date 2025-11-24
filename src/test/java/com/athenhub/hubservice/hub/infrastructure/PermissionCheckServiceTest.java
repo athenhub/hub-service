@@ -24,7 +24,7 @@ class PermissionCheckServiceTest {
   void ifActiveMasterManagerReturnTrue() {
     MemberInfo memberInfo =
         createMemberInfo(
-            UUID.randomUUID(), MemberRole.MASTER_MANAGER, MemberStatus.ACTIVATED, null);
+            UUID.randomUUID(), MemberRole.MASTER_MANAGER, MemberStatus.ACTIVATED, null, true);
 
     when(memberServiceClient.getMemberInfo(memberInfo.id())).thenReturn(memberInfo);
 
@@ -32,23 +32,10 @@ class PermissionCheckServiceTest {
   }
 
   @Test
-  void ifDeletedMasterManagerReturnFalse() {
-    MemberInfo memberInfo =
-        createMemberInfo(
-            UUID.randomUUID(),
-            MemberRole.MASTER_MANAGER,
-            MemberStatus.ACTIVATED,
-            LocalDateTime.now());
-
-    when(memberServiceClient.getMemberInfo(memberInfo.id())).thenReturn(memberInfo);
-
-    assertThat(permissionCheckService.hasManagePermission(memberInfo.id())).isFalse();
-  }
-
-  @Test
   void ifInactiveMasterManagerReturnFalse() {
     MemberInfo memberInfo =
-        createMemberInfo(UUID.randomUUID(), MemberRole.MASTER_MANAGER, MemberStatus.PENDING, null);
+        createMemberInfo(
+            UUID.randomUUID(), MemberRole.MASTER_MANAGER, MemberStatus.DEACTIVATED, null, false);
 
     when(memberServiceClient.getMemberInfo(memberInfo.id())).thenReturn(memberInfo);
 
@@ -58,7 +45,8 @@ class PermissionCheckServiceTest {
   @Test
   void ifNotMasterManagerReturnFalse() {
     MemberInfo memberInfo =
-        createMemberInfo(UUID.randomUUID(), MemberRole.HUB_MANAGER, MemberStatus.ACTIVATED, null);
+        createMemberInfo(
+            UUID.randomUUID(), MemberRole.HUB_MANAGER, MemberStatus.ACTIVATED, null, true);
 
     when(memberServiceClient.getMemberInfo(memberInfo.id())).thenReturn(memberInfo);
 
@@ -66,7 +54,11 @@ class PermissionCheckServiceTest {
   }
 
   private static MemberInfo createMemberInfo(
-      UUID memberId, MemberRole role, MemberStatus status, LocalDateTime deletedAt) {
+      UUID memberId,
+      MemberRole role,
+      MemberStatus status,
+      LocalDateTime deletedAt,
+      boolean isActivated) {
     return new MemberInfo(
         memberId,
         "테스트 회원",
@@ -78,6 +70,7 @@ class PermissionCheckServiceTest {
         LocalDateTime.now(),
         LocalDateTime.now(),
         deletedAt,
-        null);
+        null,
+        isActivated);
   }
 }

@@ -22,7 +22,8 @@ class MemberExistenceCheckServiceTest {
   @Test
   void memberExistsReturnTrue() {
     MemberInfo member =
-        createMemberInfo(UUID.randomUUID(), MemberRole.HUB_MANAGER, MemberStatus.ACTIVATED, null);
+        createMemberInfo(
+            UUID.randomUUID(), MemberRole.HUB_MANAGER, MemberStatus.ACTIVATED, null, true);
 
     when(memberServiceClient.getMemberInfo(member.id())).thenReturn(member);
 
@@ -38,20 +39,10 @@ class MemberExistenceCheckServiceTest {
   }
 
   @Test
-  void memberDeletedReturnFalse() {
+  void memberDeactivatedReturnFalse() {
     MemberInfo member =
         createMemberInfo(
-            UUID.randomUUID(), MemberRole.HUB_MANAGER, MemberStatus.ACTIVATED, LocalDateTime.now());
-
-    when(memberServiceClient.getMemberInfo(member.id())).thenReturn(member);
-
-    assertThat(memberExistenceCheckService.hasMember(member.id())).isFalse();
-  }
-
-  @Test
-  void memberInactivateReturnFalse() {
-    MemberInfo member =
-        createMemberInfo(UUID.randomUUID(), MemberRole.HUB_MANAGER, MemberStatus.PENDING, null);
+            UUID.randomUUID(), MemberRole.MASTER_MANAGER, MemberStatus.DEACTIVATED, null, false);
 
     when(memberServiceClient.getMemberInfo(member.id())).thenReturn(member);
 
@@ -59,7 +50,11 @@ class MemberExistenceCheckServiceTest {
   }
 
   private static MemberInfo createMemberInfo(
-      UUID memberId, MemberRole role, MemberStatus status, LocalDateTime deletedAt) {
+      UUID memberId,
+      MemberRole role,
+      MemberStatus status,
+      LocalDateTime deletedAt,
+      boolean isActivated) {
     return new MemberInfo(
         memberId,
         "테스트 회원",
@@ -71,6 +66,7 @@ class MemberExistenceCheckServiceTest {
         LocalDateTime.now(),
         LocalDateTime.now(),
         deletedAt,
-        null);
+        null,
+        isActivated);
   }
 }

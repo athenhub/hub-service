@@ -18,11 +18,12 @@ import java.util.UUID;
  * @param slackId Slack ID
  * @param organizationName 소속 조직명
  * @param role 회원 역할 {@link MemberRole}
- * @param status 계정 상태 (예: ACTIVE, INACTIVE)
+ * @param status 계정 상태
  * @param createdAt 계정 생성 일시
  * @param updatedAt 계정 수정 일시
  * @param deletedAt 계정 삭제 일시 (삭제되지 않았으면 {@code null})
  * @param deletedBy 계정 삭제 수행자 (삭제되지 않았으면 {@code null})
+ * @param isActivated 활성 여부
  * @author 김형섭
  * @since 1.0.0ss
  */
@@ -37,7 +38,8 @@ public record MemberInfo(
     LocalDateTime createdAt,
     LocalDateTime updatedAt,
     LocalDateTime deletedAt,
-    String deletedBy) {
+    String deletedBy,
+    boolean isActivated) {
   /**
    * 회원 정보를 기반으로 {@link HubManager} 객체를 생성하여 반환한다.
    *

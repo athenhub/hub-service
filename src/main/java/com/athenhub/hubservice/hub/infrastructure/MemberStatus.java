@@ -5,8 +5,9 @@ package com.athenhub.hubservice.hub.infrastructure;
  *
  * <ul>
  *   <li>{@link #PENDING} — 승인 대기 상태
- *   <li>{@link #ACTIVATED} — 활성 상태
  *   <li>{@link #REJECTED} — 승인 거절 상태
+ *   <li>{@link #ACTIVATED} — 활성 상태
+ *   <li>{@link #DEACTIVATED} - 비활성 상태
  * </ul>
  *
  * @author 김형섭
@@ -14,6 +15,7 @@ package com.athenhub.hubservice.hub.infrastructure;
  */
 public enum MemberStatus {
   PENDING,
+  REJECTED,
   ACTIVATED,
-  REJECTED
+  DEACTIVATED
 }
