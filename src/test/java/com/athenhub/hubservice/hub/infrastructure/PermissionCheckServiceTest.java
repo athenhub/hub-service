@@ -22,7 +22,9 @@ class PermissionCheckServiceTest {
 
   @Test
   void ifActiveMasterManagerReturnTrue() {
-    MemberInfo memberInfo = createMemberInfo(UUID.randomUUID(), MemberRole.MASTER_MANAGER, null);
+    MemberInfo memberInfo =
+        createMemberInfo(
+            UUID.randomUUID(), MemberRole.MASTER_MANAGER, MemberStatus.ACTIVATED, null);
 
     when(memberServiceClient.getMemberInfo(memberInfo.id())).thenReturn(memberInfo);
 
@@ -30,9 +32,23 @@ class PermissionCheckServiceTest {
   }
 
   @Test
-  void ifInActiveMasterManagerReturnFalse() {
+  void ifDeletedMasterManagerReturnFalse() {
     MemberInfo memberInfo =
-        createMemberInfo(UUID.randomUUID(), MemberRole.MASTER_MANAGER, LocalDateTime.now());
+        createMemberInfo(
+            UUID.randomUUID(),
+            MemberRole.MASTER_MANAGER,
+            MemberStatus.ACTIVATED,
+            LocalDateTime.now());
+
+    when(memberServiceClient.getMemberInfo(memberInfo.id())).thenReturn(memberInfo);
+
+    assertThat(permissionCheckService.hasManagePermission(memberInfo.id())).isFalse();
+  }
+
+  @Test
+  void ifInactiveMasterManagerReturnFalse() {
+    MemberInfo memberInfo =
+        createMemberInfo(UUID.randomUUID(), MemberRole.MASTER_MANAGER, MemberStatus.PENDING, null);
 
     when(memberServiceClient.getMemberInfo(memberInfo.id())).thenReturn(memberInfo);
 
@@ -41,7 +57,8 @@ class PermissionCheckServiceTest {
 
   @Test
   void ifNotMasterManagerReturnFalse() {
-    MemberInfo memberInfo = createMemberInfo(UUID.randomUUID(), MemberRole.HUB_MANAGER, null);
+    MemberInfo memberInfo =
+        createMemberInfo(UUID.randomUUID(), MemberRole.HUB_MANAGER, MemberStatus.ACTIVATED, null);
 
     when(memberServiceClient.getMemberInfo(memberInfo.id())).thenReturn(memberInfo);
 
@@ -49,7 +66,7 @@ class PermissionCheckServiceTest {
   }
 
   private static MemberInfo createMemberInfo(
-      UUID memberId, MemberRole role, LocalDateTime deletedAt) {
+      UUID memberId, MemberRole role, MemberStatus status, LocalDateTime deletedAt) {
     return new MemberInfo(
         memberId,
         "테스트 회원",
@@ -57,7 +74,7 @@ class PermissionCheckServiceTest {
         "testSlackId",
         "서울 물류",
         role,
-        "ACTIVATE",
+        status,
         LocalDateTime.now(),
         LocalDateTime.now(),
         deletedAt,
