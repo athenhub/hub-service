@@ -8,8 +8,8 @@ import com.athenhub.hubservice.hub.domain.dto.HubRegisterRequest;
 import com.athenhub.hubservice.hub.domain.dto.HubUpdateRequest;
 import com.athenhub.hubservice.hub.domain.service.MemberExistenceChecker;
 import com.athenhub.hubservice.hub.domain.service.PermissionChecker;
-import com.athenhub.hubservice.hub.domain.vo.HubManager;
 import com.athenhub.hubservice.hub.domain.vo.HubManagerId;
+import com.athenhub.hubservice.hub.domain.vo.HubManagerInfo;
 import java.util.UUID;
 
 /**
@@ -110,9 +110,9 @@ public class HubFixture {
    * HubManager DTO를 생성한다.
    *
    * @param managerId 허브 관리자 ID
-   * @return 생성된 {@link HubManager}
+   * @return 생성된 {@link HubManagerInfo}
    */
-  public static HubManager getManager(HubManagerId managerId) {
-    return new HubManager(managerId, "허브 관리자", "HubManager", "managerSlackId");
+  public static HubManagerInfo getManager(HubManagerId managerId) {
+    return new HubManagerInfo(managerId, "허브 관리자", "HubManager", "managerSlackId");
   }
 }

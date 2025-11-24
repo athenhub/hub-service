@@ -1,7 +1,7 @@
 package com.athenhub.hubservice.hub.infrastructure.dto;
 
-import com.athenhub.hubservice.hub.domain.vo.HubManager;
 import com.athenhub.hubservice.hub.domain.vo.HubManagerId;
+import com.athenhub.hubservice.hub.domain.vo.HubManagerInfo;
 import com.athenhub.hubservice.hub.infrastructure.MemberRole;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -38,13 +38,13 @@ public record MemberInfo(
     LocalDateTime deletedAt,
     String deletedBy) {
   /**
-   * 회원 정보를 기반으로 {@link HubManager} 객체를 생성하여 반환한다.
+   * 회원 정보를 기반으로 {@link HubManagerInfo} 객체를 생성하여 반환한다.
    *
-   * <p>해당 메서드는 회원 정보를 업체 담당자(VendorAgent) 도메인 모델로 변환할 때 사용된다.
+   * <p>해당 메서드는 회원 정보를 허브 관리자 정보(HubManagerInfo) 도메인 모델로 변환할 때 사용된다.
    *
-   * @return 변환된 {@link HubManager} 객체
+   * @return 변환된 {@link HubManagerInfo} 객체
    */
-  public HubManager toVendorAgent() {
-    return new HubManager(HubManagerId.of(id), name, username, slackId);
+  public HubManagerInfo toHubManagerInfo() {
+    return new HubManagerInfo(HubManagerId.of(id), name, username, slackId);
   }
 }

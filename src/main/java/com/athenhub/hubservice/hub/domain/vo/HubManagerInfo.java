@@ -23,4 +23,4 @@ package com.athenhub.hubservice.hub.domain.vo;
  * @author 김형섭
  * @since 1.0.0
  */
-public record HubManager(HubManagerId id, String name, String username, String slackId) {}
+public record HubManagerInfo(HubManagerId id, String name, String username, String slackId) {}
