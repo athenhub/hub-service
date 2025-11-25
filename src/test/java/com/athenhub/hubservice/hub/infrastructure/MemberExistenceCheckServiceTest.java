@@ -14,43 +14,39 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class PermissionCheckServiceTest {
-
+class MemberExistenceCheckServiceTest {
   @Mock MemberServiceClient memberServiceClient;
 
-  @InjectMocks PermissionCheckService permissionCheckService;
+  @InjectMocks MemberExistenceCheckService memberExistenceCheckService;
 
   @Test
-  void ifActiveMasterManagerReturnTrue() {
-    MemberInfo memberInfo =
-        createMemberInfo(
-            UUID.randomUUID(), MemberRole.MASTER_MANAGER, MemberStatus.ACTIVATED, null, true);
-
-    when(memberServiceClient.getMemberInfo(memberInfo.id())).thenReturn(memberInfo);
-
-    assertThat(permissionCheckService.hasManagePermission(memberInfo.id())).isTrue();
-  }
-
-  @Test
-  void ifInactiveMasterManagerReturnFalse() {
-    MemberInfo memberInfo =
-        createMemberInfo(
-            UUID.randomUUID(), MemberRole.MASTER_MANAGER, MemberStatus.DEACTIVATED, null, false);
-
-    when(memberServiceClient.getMemberInfo(memberInfo.id())).thenReturn(memberInfo);
-
-    assertThat(permissionCheckService.hasManagePermission(memberInfo.id())).isFalse();
-  }
-
-  @Test
-  void ifNotMasterManagerReturnFalse() {
-    MemberInfo memberInfo =
+  void memberExistsReturnTrue() {
+    MemberInfo member =
         createMemberInfo(
             UUID.randomUUID(), MemberRole.HUB_MANAGER, MemberStatus.ACTIVATED, null, true);
 
-    when(memberServiceClient.getMemberInfo(memberInfo.id())).thenReturn(memberInfo);
+    when(memberServiceClient.getMemberInfo(member.id())).thenReturn(member);
 
-    assertThat(permissionCheckService.hasManagePermission(memberInfo.id())).isFalse();
+    assertThat(memberExistenceCheckService.hasMember(member.id())).isTrue();
+  }
+
+  @Test
+  void memberNotExistsReturnFalse() {
+    UUID memberId = UUID.randomUUID();
+    when(memberServiceClient.getMemberInfo(memberId)).thenReturn(null);
+
+    assertThat(memberExistenceCheckService.hasMember(memberId)).isFalse();
+  }
+
+  @Test
+  void memberDeactivatedReturnFalse() {
+    MemberInfo member =
+        createMemberInfo(
+            UUID.randomUUID(), MemberRole.MASTER_MANAGER, MemberStatus.DEACTIVATED, null, false);
+
+    when(memberServiceClient.getMemberInfo(member.id())).thenReturn(member);
+
+    assertThat(memberExistenceCheckService.hasMember(member.id())).isFalse();
   }
 
   private static MemberInfo createMemberInfo(

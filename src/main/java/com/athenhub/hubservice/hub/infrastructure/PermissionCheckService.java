@@ -51,6 +51,8 @@ public class PermissionCheckService implements PermissionChecker {
    * @return 활성 Master Manager이면 {@code true}, 아니면 {@code false}
    */
   private boolean isActiveMasterManager(MemberInfo member) {
-    return MemberRole.MASTER_MANAGER.equals(member.role()) && Objects.isNull(member.deletedAt());
+    return MemberRole.MASTER_MANAGER.equals(member.role())
+        && Objects.isNull(member.deletedAt())
+        && MemberStatus.ACTIVATED.equals(member.status());
   }
 }
