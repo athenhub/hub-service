@@ -1,6 +1,7 @@
 package com.athenhub.hubservice.hub.domain;
 
 import com.athenhub.hubservice.hub.domain.vo.HubId;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -45,6 +46,13 @@ public interface HubRepository extends Repository<Hub, HubId> {
    * @return 조회된 {@link Hub} 엔티티(Optional)
    */
   Optional<Hub> findById(HubId id);
+
+  /**
+   * 삭제되지 않은 허브를 전부 조회한다.
+   *
+   * @return 조회된 {@link Hub} 목록
+   */
+  List<Hub> findAllByDeletedAtIsNull();
 
   /**
    * 다양한 조건을 기반으로 {@link Hub} 엔티티를 검색한다.

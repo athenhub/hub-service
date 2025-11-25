@@ -19,3 +19,8 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: https://eureka.athenhub.xyz/eureka/
+
+naver:
+  api:
+    key-id: ${NAVER_MAP_KEY_ID}
+    key: ${NAVER_MAP_KEY}

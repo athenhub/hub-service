@@ -28,3 +28,8 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: ${EUREKA_SERVICE_URL}
+
+naver:
+  api:
+    key-id: ${NAVER_MAP_KEY_ID}
+    key: ${NAVER_MAP_KEY}
