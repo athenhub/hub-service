@@ -34,3 +34,8 @@ rabbit:
     exchange: hub.exchange
     queue: hub.queue
     routing-key: hub.#
+
+naver:
+  api:
+    key-id: ${NAVER_MAP_KEY_ID}
+    key: ${NAVER_MAP_KEY}

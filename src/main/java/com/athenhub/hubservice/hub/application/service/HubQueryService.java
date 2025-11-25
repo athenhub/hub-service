@@ -6,6 +6,7 @@ import com.athenhub.hubservice.hub.domain.dto.HubSearchCondition;
 import com.athenhub.hubservice.hub.domain.service.HubManagerInfoFinder;
 import com.athenhub.hubservice.hub.domain.vo.HubId;
 import com.athenhub.hubservice.hub.domain.vo.HubManagerInfo;
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -48,6 +49,11 @@ public class HubQueryService implements HubFinder {
         .findById(HubId.of(hubId))
         .orElseThrow(
             () -> new IllegalArgumentException("허브 정보를 찾을수 없습니다. id: " + hubId.toString()));
+  }
+
+  @Override
+  public List<Hub> findAllActive() {
+    return hubRepository.findAllByDeletedAtIsNull();
   }
 
   @Override
