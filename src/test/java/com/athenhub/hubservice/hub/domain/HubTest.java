@@ -17,8 +17,8 @@ import com.athenhub.hubservice.hub.domain.service.MemberExistenceChecker;
 import com.athenhub.hubservice.hub.domain.service.PermissionChecker;
 import com.athenhub.hubservice.hub.domain.vo.Address;
 import com.athenhub.hubservice.hub.domain.vo.Coordinate;
-import com.athenhub.hubservice.hub.domain.vo.HubManager;
 import com.athenhub.hubservice.hub.domain.vo.HubManagerId;
+import com.athenhub.hubservice.hub.domain.vo.HubManagerInfo;
 import java.util.UUID;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -130,7 +130,7 @@ class HubTest {
 
   @Test
   void getHubManagerInfo() {
-    HubManager manager = getManager(hub.getManagerId());
+    HubManagerInfo manager = getManager(hub.getManagerId());
     when(hubManagerInfoFinder.find(any())).thenReturn(manager);
 
     assertThat(hub.getManagerInfo(hubManagerInfoFinder)).isEqualTo(manager);

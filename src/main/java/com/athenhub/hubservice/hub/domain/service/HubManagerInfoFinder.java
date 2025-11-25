@@ -1,7 +1,7 @@
 package com.athenhub.hubservice.hub.domain.service;
 
-import com.athenhub.hubservice.hub.domain.vo.HubManager;
 import com.athenhub.hubservice.hub.domain.vo.HubManagerId;
+import com.athenhub.hubservice.hub.domain.vo.HubManagerInfo;
 
 /**
  * 허브 관리자(HubManager) 정보를 조회하는 기능을 제공하는 조회 전용 인터페이스.
@@ -22,7 +22,7 @@ public interface HubManagerInfoFinder {
    * 관리자 ID에 해당하는 허브 관리자 정보를 조회한다.
    *
    * @param managerId 조회할 관리자 ID
-   * @return 조회된 {@link HubManager} 정보
+   * @return 조회된 {@link HubManagerInfo} 정보
    */
-  HubManager find(HubManagerId managerId);
+  HubManagerInfo find(HubManagerId managerId);
 }

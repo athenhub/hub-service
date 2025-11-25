@@ -11,8 +11,8 @@ import com.athenhub.hubservice.hub.domain.service.PermissionChecker;
 import com.athenhub.hubservice.hub.domain.vo.Address;
 import com.athenhub.hubservice.hub.domain.vo.Coordinate;
 import com.athenhub.hubservice.hub.domain.vo.HubId;
-import com.athenhub.hubservice.hub.domain.vo.HubManager;
 import com.athenhub.hubservice.hub.domain.vo.HubManagerId;
+import com.athenhub.hubservice.hub.domain.vo.HubManagerInfo;
 import jakarta.persistence.Embedded;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
@@ -23,6 +23,7 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.proxy.HibernateProxy;
 
 /**
  * 허브(Hub) 도메인 엔티티.
@@ -147,7 +148,7 @@ public class Hub extends AbstractAuditEntity {
    * @param managerFinder 허브 관리자 정보 조회 인터페이스
    * @return 허브 관리자 정보
    */
-  public HubManager getManagerInfo(HubManagerInfoFinder managerFinder) {
+  public HubManagerInfo getManagerInfo(HubManagerInfoFinder managerFinder) {
     return managerFinder.find(this.managerId);
   }
 
@@ -183,5 +184,33 @@ public class Hub extends AbstractAuditEntity {
     if (!memberExistenceChecker.hasMember(memberId)) {
       throw new IllegalArgumentException("회원이 존재하지 않습니다. id: " + memberId);
     }
+  }
+
+  @Override
+  public final boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (o == null) {
+      return false;
+    }
+    Class<?> oEffectiveClass =
+        o instanceof HibernateProxy
+            ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass()
+            : o.getClass();
+    Class<?> thisEffectiveClass =
+        this instanceof HibernateProxy
+            ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass()
+            : this.getClass();
+    if (thisEffectiveClass != oEffectiveClass) {
+      return false;
+    }
+    Hub hub = (Hub) o;
+    return getId() != null && Objects.equals(getId(), hub.getId());
+  }
+
+  @Override
+  public final int hashCode() {
+    return Objects.hash(id);
   }
 }
