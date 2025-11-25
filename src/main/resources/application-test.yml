@@ -19,3 +19,9 @@ eureka:
     fetch-registry: true
     service-url:
       defaultZone: https://eureka.athenhub.xyz/eureka/
+
+rabbit:
+  hub:
+    exchange: hub.exchange
+    queue: hub.queue
+    routing-key: hub.#

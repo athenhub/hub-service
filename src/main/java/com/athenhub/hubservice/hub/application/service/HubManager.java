@@ -29,19 +29,28 @@ public interface HubManager {
    *
    * @param hubId 수정할 허브 ID (필수)
    * @param updateRequest 수정 요청 DTO (필수, 유효성 검사 적용)
+   * @param requestUsername 요청자 계정 (필수)
    * @return 수정된 {@link Hub} 엔티티
    */
   Hub updateInfo(
-      @NotNull UUID hubId, @Valid HubUpdateRequest updateRequest, @NotNull UUID requestId);
+      @NotNull UUID hubId,
+      @Valid HubUpdateRequest updateRequest,
+      @NotNull UUID requestId,
+      @NotNull String requestUsername);
 
   /**
    * 허브를 삭제한다.
    *
    * @param hubId 삭제할 허브 ID (필수)
    * @param deleteBy 삭제 요청자 (필수)
+   * @param requestUsername 요청자 계정 (필수)
    * @return 삭제 처리된 {@link Hub} 엔티티
    */
-  Hub delete(@NotNull UUID hubId, @NotBlank String deleteBy, @NotNull UUID requestId);
+  Hub delete(
+      @NotNull UUID hubId,
+      @NotBlank String deleteBy,
+      @NotNull UUID requestId,
+      @NotNull String requestUsername);
 
   /**
    * 허브 관리자를 변경한다.
@@ -49,6 +58,11 @@ public interface HubManager {
    * @param hubId 변경할 허브 ID (필수)
    * @param newManagerId 변경할 허브 관리자 ID (필수)
    * @param requestId 변경 요청자 (필수)
+   * @param requestUsername 요청자 계정 (필수)
    */
-  void changeManager(@NotNull UUID hubId, @NotNull UUID newManagerId, @NotNull UUID requestId);
+  void changeManager(
+      @NotNull UUID hubId,
+      @NotNull UUID newManagerId,
+      @NotNull UUID requestId,
+      @NotNull String requestUsername);
 }

@@ -2,10 +2,13 @@ package com.athenhub.hubservice.hub.application.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.athenhub.hubservice.hub.HubFixture;
 import com.athenhub.hubservice.hub.domain.Hub;
+import com.athenhub.hubservice.hub.domain.event.HubRegistered;
 import com.athenhub.hubservice.hub.domain.service.MemberExistenceChecker;
 import com.athenhub.hubservice.hub.domain.service.PermissionChecker;
 import java.util.UUID;
@@ -24,14 +27,19 @@ class HubRegisterTest {
 
   @MockitoBean MemberExistenceChecker memberExistenceChecker;
 
+  @MockitoBean HubEventPublisher hubEventPublisher;
+
   @Test
   void register() {
     when(permissionChecker.hasManagePermission(any())).thenReturn(true);
     when(memberExistenceChecker.hasMember(any())).thenReturn(true);
+    doNothing().when(hubEventPublisher).publish(any(HubRegistered.class));
 
-    Hub hub = hubRegister.register(HubFixture.createRegisterRequest(), UUID.randomUUID());
+    Hub hub =
+        hubRegister.register(HubFixture.createRegisterRequest(), UUID.randomUUID(), "requestUser");
 
     assertThat(hub.getId()).isNotNull();
     assertThat(hub.getManagerId()).isNotNull();
+    verify(hubEventPublisher).publish(any(HubRegistered.class));
   }
 }

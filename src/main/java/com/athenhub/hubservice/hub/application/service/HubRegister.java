@@ -28,7 +28,11 @@ public interface HubRegister {
    *
    * @param registerRequest 등록 요청 DTO (필수, 유효성 검사 적용)
    * @param requestId 요청자 ID (필수)
+   * @param requestUsername 요청자 계정 (필수)
    * @return 생성된 {@link Hub} 엔티티
    */
-  Hub register(@Valid HubRegisterRequest registerRequest, @NotNull UUID requestId);
+  Hub register(
+      @Valid HubRegisterRequest registerRequest,
+      @NotNull UUID requestId,
+      @NotNull String requestUsername);
 }
