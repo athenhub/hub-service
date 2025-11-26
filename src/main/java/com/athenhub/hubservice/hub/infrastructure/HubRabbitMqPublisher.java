@@ -1,7 +1,7 @@
 package com.athenhub.hubservice.hub.infrastructure;
 
 import com.athenhub.hubservice.global.infrastructure.message.RabbitProperties;
-import com.athenhub.hubservice.hub.application.service.HubEventPublisher;
+import com.athenhub.hubservice.hub.application.service.HubMessagePublisher;
 import com.athenhub.hubservice.hub.domain.event.HubDeleted;
 import com.athenhub.hubservice.hub.domain.event.HubManagerChanged;
 import com.athenhub.hubservice.hub.domain.event.HubRegistered;
@@ -23,7 +23,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 @EnableConfigurationProperties(RabbitProperties.class)
-public class HubRabbitMqPublisher implements HubEventPublisher {
+public class HubRabbitMqPublisher implements HubMessagePublisher {
 
   private final RabbitTemplate rabbitTemplate;
   private final RabbitProperties rabbitProperties;

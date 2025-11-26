@@ -12,6 +12,7 @@ import com.athenhub.hubservice.hub.domain.service.MemberExistenceChecker;
 import com.athenhub.hubservice.hub.domain.service.PermissionChecker;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -47,7 +48,7 @@ public class HubManageService implements HubRegister, HubManager {
   private final HubFinder hubFinder;
   private final PermissionChecker permissionChecker;
   private final MemberExistenceChecker memberExistenceChecker;
-  private final HubEventPublisher hubEventPublisher;
+  private final ApplicationEventPublisher eventPublisher;
 
   @Override
   public Hub register(HubRegisterRequest registerRequest, UUID requestId, String requestUsername) {
@@ -55,7 +56,7 @@ public class HubManageService implements HubRegister, HubManager {
 
     hub = hubRepository.save(hub);
 
-    hubEventPublisher.publish(HubRegistered.from(hub, requestUsername));
+    eventPublisher.publishEvent(HubRegistered.from(hub, requestUsername));
 
     return hub;
   }
@@ -69,7 +70,7 @@ public class HubManageService implements HubRegister, HubManager {
 
     hub = hubRepository.save(hub);
 
-    hubEventPublisher.publish(HubUpdated.from(hub, requestUsername));
+    eventPublisher.publishEvent(HubUpdated.from(hub, requestUsername));
 
     return hub;
   }
@@ -82,7 +83,7 @@ public class HubManageService implements HubRegister, HubManager {
 
     hub = hubRepository.save(hub);
 
-    hubEventPublisher.publish(HubDeleted.from(hub, requestUsername));
+    eventPublisher.publishEvent(HubDeleted.from(hub, requestUsername));
 
     return hub;
   }
@@ -96,6 +97,6 @@ public class HubManageService implements HubRegister, HubManager {
 
     hub = hubRepository.save(hub);
 
-    hubEventPublisher.publish(HubManagerChanged.from(hub, oldManagerId, requestUsername));
+    eventPublisher.publishEvent(HubManagerChanged.from(hub, oldManagerId, requestUsername));
   }
 }

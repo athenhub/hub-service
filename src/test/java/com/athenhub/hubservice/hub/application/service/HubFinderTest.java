@@ -3,13 +3,10 @@ package com.athenhub.hubservice.hub.application.service;
 import static com.athenhub.hubservice.hub.HubFixture.createRegisterRequest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 import com.athenhub.hubservice.hub.domain.Hub;
 import com.athenhub.hubservice.hub.domain.dto.HubSearchCondition;
-import com.athenhub.hubservice.hub.domain.event.HubDeleted;
-import com.athenhub.hubservice.hub.domain.event.HubRegistered;
 import com.athenhub.hubservice.hub.domain.service.MemberExistenceChecker;
 import com.athenhub.hubservice.hub.domain.service.PermissionChecker;
 import jakarta.persistence.EntityManager;
@@ -26,9 +23,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import org.springframework.test.context.event.RecordApplicationEvents;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
+@RecordApplicationEvents
 @Transactional
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 class HubFinderTest {
@@ -44,8 +43,6 @@ class HubFinderTest {
   @MockitoBean private PermissionChecker permissionChecker;
 
   @MockitoBean private MemberExistenceChecker memberExistenceChecker;
-
-  @MockitoBean private HubEventPublisher hubEventPublisher;
 
   private final UUID requestId = UUID.randomUUID();
 
@@ -74,7 +71,6 @@ class HubFinderTest {
     hub10 = registerHub("테스트 허브10", "서울시 테스트로 1", "A호");
 
     when(permissionChecker.hasManagePermission(any())).thenReturn(true);
-    doNothing().when(hubEventPublisher).publish(any(HubDeleted.class));
 
     hubManager.delete(hub1.getId().toUuid(), "test", UUID.randomUUID(), "testUser");
     hubManager.delete(hub2.getId().toUuid(), "test", UUID.randomUUID(), "testUser");
@@ -181,7 +177,6 @@ class HubFinderTest {
   private Hub registerHub(String name, String streetAddress, String detailAddress) {
     when(permissionChecker.hasManagePermission(any(UUID.class))).thenReturn(true);
     when(memberExistenceChecker.hasMember(any(UUID.class))).thenReturn(true);
-    doNothing().when(hubEventPublisher).publish(any(HubRegistered.class));
 
     return hubRegister.register(
         createRegisterRequest(name, streetAddress, detailAddress, UUID.randomUUID()),
