@@ -1,7 +1,7 @@
 package com.athenhub.hubservice.hub.infrastructure;
 
 import com.athenhub.hubservice.hub.application.service.HubMessagePublisher;
-import com.athenhub.hubservice.hub.application.service.HubRouteManageService;
+import com.athenhub.hubservice.hub.application.service.HubRouteService;
 import com.athenhub.hubservice.hub.domain.event.HubDeleted;
 import com.athenhub.hubservice.hub.domain.event.HubManagerChanged;
 import com.athenhub.hubservice.hub.domain.event.HubRegistered;
@@ -31,7 +31,7 @@ import org.springframework.transaction.event.TransactionalEventListener;
  * @see HubUpdated
  * @see HubDeleted
  * @see HubManagerChanged
- * @see HubRouteManageService
+ * @see HubRouteService
  * @see HubMessagePublisher
  * @author 김형섭
  * @since 1.0.0
@@ -40,7 +40,7 @@ import org.springframework.transaction.event.TransactionalEventListener;
 @RequiredArgsConstructor
 public class HubEventHandler {
 
-  private final HubRouteManageService hubRouteManageService;
+  private final HubRouteService hubRouteService;
   private final HubMessagePublisher hubMessagePublisher;
 
   /**
@@ -53,7 +53,7 @@ public class HubEventHandler {
   @Async
   @TransactionalEventListener(HubRegistered.class)
   public void handleHubRegistered(HubRegistered event) {
-    hubRouteManageService.calculateRoutesForNewHub(event.hubId());
+    hubRouteService.calculateRoutesForNewHub(event.hubId());
     hubMessagePublisher.publish(event);
   }
 
@@ -80,7 +80,7 @@ public class HubEventHandler {
   @Async
   @TransactionalEventListener(HubDeleted.class)
   public void handleHubDeleted(HubDeleted event) {
-    hubRouteManageService.deactivateRoutesForHub(event.hubId(), event.requestUsername());
+    hubRouteService.deactivateRoutesForHub(event.hubId(), event.requestUsername());
     hubMessagePublisher.publish(event);
   }
 

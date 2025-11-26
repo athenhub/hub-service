@@ -32,7 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class HubRouteManageService {
+public class HubRouteService {
   private final HubFinder hubFinder;
   private final HubRouteRepository hubRouteRepository;
   private final RouteCalculator routeCalculator;
@@ -56,6 +56,19 @@ public class HubRouteManageService {
             .toList();
 
     hubRouteRepository.saveAll(newRoutes);
+  }
+
+  /**
+   * 지정한 허브가 출발 허브인 모든 허브 경로를 조회한다.
+   *
+   * @param hubId 대상 허브의 식별자
+   * @return 조회된 허브 경로 목록
+   */
+  @Transactional(readOnly = true)
+  public List<HubRoute> findAllSourceBy(UUID hubId) {
+    return hubRouteRepository.findAllByHubId(HubId.of(hubId)).stream()
+        .filter(route -> route.getSourceHubId().toUuid().equals(hubId))
+        .toList();
   }
 
   /**

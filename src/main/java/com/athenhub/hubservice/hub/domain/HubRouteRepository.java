@@ -34,6 +34,13 @@ public interface HubRouteRepository extends Repository<HubRoute, Long> {
   <S extends HubRoute> List<S> saveAll(Iterable<S> routes);
 
   /**
+   * 모든 허브 경로를 조회한다.
+   *
+   * @return 조회된 {@link HubRoute} 목록
+   */
+  List<HubRoute> findAll();
+
+  /**
    * ID를 기반으로 단일 허브 경로를 조회한다.
    *
    * @param id 경로 식별자
@@ -52,8 +59,11 @@ public interface HubRouteRepository extends Repository<HubRoute, Long> {
   @Query(
       """
         SELECT r FROM HubRoute r
-        WHERE r.sourceHubId = :hubId
-        OR r.targetHubId = :hubId
+        WHERE (
+          r.sourceHubId = :hubId
+          OR r.targetHubId = :hubId
+        )
+        AND r.deletedAt IS NULL
       """)
   List<HubRoute> findAllByHubId(HubId hubId);
 }
