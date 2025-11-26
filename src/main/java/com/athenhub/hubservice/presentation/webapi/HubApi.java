@@ -63,7 +63,7 @@ public class HubApi {
   public HubRegisterResponse register(
       @AuthenticationPrincipal AuthenticatedUser requestUser,
       @RequestBody HubRegisterRequest registerRequest) {
-    Hub hub = hubRegister.register(registerRequest, requestUser.id());
+    Hub hub = hubRegister.register(registerRequest, requestUser.id(), requestUser.username());
 
     return HubRegisterResponse.from(hub);
   }
@@ -123,7 +123,7 @@ public class HubApi {
       @AuthenticationPrincipal AuthenticatedUser requestUser,
       @PathVariable UUID hubId,
       @RequestBody HubUpdateRequest updateRequest) {
-    Hub hub = hubManager.updateInfo(hubId, updateRequest, requestUser.id());
+    Hub hub = hubManager.updateInfo(hubId, updateRequest, requestUser.id(), requestUser.username());
 
     return HubUpdateResponse.from(hub);
   }
@@ -141,7 +141,9 @@ public class HubApi {
   @DeleteMapping("/v1/hubs/{hubId}")
   public HubDeleteResponse delete(
       @AuthenticationPrincipal AuthenticatedUser requestUser, @PathVariable UUID hubId) {
-    Hub hub = hubManager.delete(hubId, requestUser.getUsername(), requestUser.id());
+    Hub hub =
+        hubManager.delete(
+            hubId, requestUser.getUsername(), requestUser.id(), requestUser.username());
 
     return HubDeleteResponse.from(hub);
   }
@@ -178,6 +180,7 @@ public class HubApi {
       @AuthenticationPrincipal AuthenticatedUser requestUser,
       @PathVariable UUID hubId,
       @RequestBody HubManagerChangeRequest changeRequest) {
-    hubManager.changeManager(hubId, changeRequest.newMangerId(), requestUser.id());
+    hubManager.changeManager(
+        hubId, changeRequest.newMangerId(), requestUser.id(), requestUser.username());
   }
 }

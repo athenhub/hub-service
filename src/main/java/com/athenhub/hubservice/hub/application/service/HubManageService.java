@@ -4,6 +4,10 @@ import com.athenhub.hubservice.hub.domain.Hub;
 import com.athenhub.hubservice.hub.domain.HubRepository;
 import com.athenhub.hubservice.hub.domain.dto.HubRegisterRequest;
 import com.athenhub.hubservice.hub.domain.dto.HubUpdateRequest;
+import com.athenhub.hubservice.hub.domain.event.HubDeleted;
+import com.athenhub.hubservice.hub.domain.event.HubManagerChanged;
+import com.athenhub.hubservice.hub.domain.event.HubRegistered;
+import com.athenhub.hubservice.hub.domain.event.HubUpdated;
 import com.athenhub.hubservice.hub.domain.service.MemberExistenceChecker;
 import com.athenhub.hubservice.hub.domain.service.PermissionChecker;
 import java.util.UUID;
@@ -43,36 +47,55 @@ public class HubManageService implements HubRegister, HubManager {
   private final HubFinder hubFinder;
   private final PermissionChecker permissionChecker;
   private final MemberExistenceChecker memberExistenceChecker;
+  private final HubEventPublisher hubEventPublisher;
 
   @Override
-  public Hub register(HubRegisterRequest registerRequest, UUID requestId) {
+  public Hub register(HubRegisterRequest registerRequest, UUID requestId, String requestUsername) {
     Hub hub = Hub.register(registerRequest, permissionChecker, memberExistenceChecker, requestId);
 
-    return hubRepository.save(hub);
+    hub = hubRepository.save(hub);
+
+    hubEventPublisher.publish(HubRegistered.from(hub, requestUsername));
+
+    return hub;
   }
 
   @Override
-  public Hub updateInfo(UUID hubId, HubUpdateRequest updateRequest, UUID requestId) {
+  public Hub updateInfo(
+      UUID hubId, HubUpdateRequest updateRequest, UUID requestId, String requestUsername) {
     Hub hub = hubFinder.find(hubId);
 
     hub.updateInfo(updateRequest, permissionChecker, requestId);
 
-    return hubRepository.save(hub);
+    hub = hubRepository.save(hub);
+
+    hubEventPublisher.publish(HubUpdated.from(hub, requestUsername));
+
+    return hub;
   }
 
   @Override
-  public Hub delete(UUID hubId, String deleteBy, UUID requestId) {
+  public Hub delete(UUID hubId, String deleteBy, UUID requestId, String requestUsername) {
     Hub hub = hubFinder.find(hubId);
 
     hub.delete(deleteBy, permissionChecker, requestId);
 
-    return hubRepository.save(hub);
+    hub = hubRepository.save(hub);
+
+    hubEventPublisher.publish(HubDeleted.from(hub, requestUsername));
+
+    return hub;
   }
 
   @Override
-  public void changeManager(UUID hubId, UUID newManagerId, UUID requestId) {
+  public void changeManager(UUID hubId, UUID newManagerId, UUID requestId, String requestUsername) {
     Hub hub = hubFinder.find(hubId);
+    UUID oldManagerId = hub.getManagerId().toUuid();
 
     hub.changeManager(newManagerId, permissionChecker, memberExistenceChecker, requestId);
+
+    hub = hubRepository.save(hub);
+
+    hubEventPublisher.publish(HubManagerChanged.from(hub, oldManagerId, requestUsername));
   }
 }
