@@ -20,6 +20,12 @@ eureka:
     service-url:
       defaultZone: https://eureka.athenhub.xyz/eureka/
 
+rabbit:
+  hub:
+    exchange: hub.exchange
+    queue: hub.queue
+    routing-key: hub.#
+
 naver:
   api:
     key-id: ${NAVER_MAP_KEY_ID}

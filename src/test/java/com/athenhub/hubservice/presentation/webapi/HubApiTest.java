@@ -64,7 +64,7 @@ class HubApiTest {
     HubRegisterRequest request = HubFixture.createRegisterRequest();
 
     hub = HubFixture.create(request, permissionChecker, memberExistenceChecker);
-    given(hubRegister.register(any(HubRegisterRequest.class), any())).willReturn(hub);
+    given(hubRegister.register(any(HubRegisterRequest.class), any(), anyString())).willReturn(hub);
     String requestJson = objectMapper.writeValueAsString(request);
 
     MvcTestResult result =
@@ -87,7 +87,7 @@ class HubApiTest {
     HubRegisterRequest request = HubFixture.createRegisterRequest();
 
     Hub hub = HubFixture.create(request, permissionChecker, memberExistenceChecker);
-    given(hubRegister.register(any(HubRegisterRequest.class), any())).willReturn(hub);
+    given(hubRegister.register(any(HubRegisterRequest.class), any(), anyString())).willReturn(hub);
     String requestJson = objectMapper.writeValueAsString(request);
 
     MvcTestResult result =
@@ -122,7 +122,8 @@ class HubApiTest {
     HubUpdateRequest request = HubFixture.createUpdateRequest();
 
     Hub hub = HubFixture.create(permissionChecker, memberExistenceChecker);
-    given(hubManager.updateInfo(any(), any(HubUpdateRequest.class), any())).willReturn(hub);
+    given(hubManager.updateInfo(any(), any(HubUpdateRequest.class), any(), anyString()))
+        .willReturn(hub);
     String requestJson = objectMapper.writeValueAsString(request);
 
     MvcTestResult result =
@@ -145,7 +146,8 @@ class HubApiTest {
     HubUpdateRequest request = HubFixture.createUpdateRequest();
 
     Hub hub = HubFixture.create(permissionChecker, memberExistenceChecker);
-    given(hubManager.updateInfo(any(), any(HubUpdateRequest.class), any())).willReturn(hub);
+    given(hubManager.updateInfo(any(), any(HubUpdateRequest.class), any(), anyString()))
+        .willReturn(hub);
     String requestJson = objectMapper.writeValueAsString(request);
 
     MvcTestResult result =
@@ -163,7 +165,7 @@ class HubApiTest {
   @MockUser(roles = "MASTER_MANAGER")
   void delete() {
     Hub hub = HubFixture.create(permissionChecker, memberExistenceChecker);
-    given(hubManager.delete(any(), anyString(), any())).willReturn(hub);
+    given(hubManager.delete(any(), anyString(), any(), anyString())).willReturn(hub);
 
     MvcTestResult result =
         mvcTester.delete().uri("/v1/hubs/{hubId}", hub.getId().toString()).exchange();
@@ -178,7 +180,7 @@ class HubApiTest {
   @MockUser(roles = "SHIPPING_AGENT")
   void deleteIfUnauthorized() {
     Hub hub = HubFixture.create(permissionChecker, memberExistenceChecker);
-    given(hubManager.delete(any(), anyString(), any())).willReturn(hub);
+    given(hubManager.delete(any(), anyString(), any(), anyString())).willReturn(hub);
 
     MvcTestResult result =
         mvcTester.delete().uri("/v1/hubs/{hubId}", hub.getId().toString()).exchange();
@@ -208,7 +210,9 @@ class HubApiTest {
   @MockUser(roles = "MASTER_MANAGER")
   void changeManager() throws JsonProcessingException {
     HubManagerChangeRequest request = new HubManagerChangeRequest(UUID.randomUUID());
-    doNothing().when(hubManager).changeManager(any(UUID.class), any(UUID.class), any(UUID.class));
+    doNothing()
+        .when(hubManager)
+        .changeManager(any(UUID.class), any(UUID.class), any(UUID.class), anyString());
     String requestJson = objectMapper.writeValueAsString(request);
 
     MvcTestResult result =
@@ -226,7 +230,9 @@ class HubApiTest {
   @MockUser(roles = "SHIPPING_AGENT")
   void changeManagerIfUnauthorized() throws JsonProcessingException {
     HubManagerChangeRequest request = new HubManagerChangeRequest(UUID.randomUUID());
-    doNothing().when(hubManager).changeManager(any(UUID.class), any(UUID.class), any(UUID.class));
+    doNothing()
+        .when(hubManager)
+        .changeManager(any(UUID.class), any(UUID.class), any(UUID.class), anyString());
     String requestJson = objectMapper.writeValueAsString(request);
 
     MvcTestResult result =

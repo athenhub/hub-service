@@ -29,6 +29,17 @@ eureka:
     service-url:
       defaultZone: ${EUREKA_SERVICE_URL}
 
+rabbit:
+  hub:
+    exchange: hub.exchange
+    queue: hub.queue
+    routing-key: hub.#
+
+naver:
+  api:
+    key-id: ${NAVER_MAP_KEY_ID}
+    key: ${NAVER_MAP_KEY}
+
 naver:
   api:
     key-id: ${NAVER_MAP_KEY_ID}

@@ -3,10 +3,13 @@ package com.athenhub.hubservice.hub.application.service;
 import static com.athenhub.hubservice.hub.HubFixture.createRegisterRequest;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 import com.athenhub.hubservice.hub.domain.Hub;
 import com.athenhub.hubservice.hub.domain.dto.HubSearchCondition;
+import com.athenhub.hubservice.hub.domain.event.HubDeleted;
+import com.athenhub.hubservice.hub.domain.event.HubRegistered;
 import com.athenhub.hubservice.hub.domain.service.MemberExistenceChecker;
 import com.athenhub.hubservice.hub.domain.service.PermissionChecker;
 import jakarta.persistence.EntityManager;
@@ -42,6 +45,8 @@ class HubFinderTest {
 
   @MockitoBean private MemberExistenceChecker memberExistenceChecker;
 
+  @MockitoBean private HubEventPublisher hubEventPublisher;
+
   private final UUID requestId = UUID.randomUUID();
 
   Hub hub1;
@@ -69,8 +74,10 @@ class HubFinderTest {
     hub10 = registerHub("테스트 허브10", "서울시 테스트로 1", "A호");
 
     when(permissionChecker.hasManagePermission(any())).thenReturn(true);
-    hubManager.delete(hub1.getId().toUuid(), "test", UUID.randomUUID());
-    hubManager.delete(hub2.getId().toUuid(), "test", UUID.randomUUID());
+    doNothing().when(hubEventPublisher).publish(any(HubDeleted.class));
+
+    hubManager.delete(hub1.getId().toUuid(), "test", UUID.randomUUID(), "testUser");
+    hubManager.delete(hub2.getId().toUuid(), "test", UUID.randomUUID(), "testUser");
   }
 
   @BeforeEach
@@ -174,8 +181,11 @@ class HubFinderTest {
   private Hub registerHub(String name, String streetAddress, String detailAddress) {
     when(permissionChecker.hasManagePermission(any(UUID.class))).thenReturn(true);
     when(memberExistenceChecker.hasMember(any(UUID.class))).thenReturn(true);
+    doNothing().when(hubEventPublisher).publish(any(HubRegistered.class));
 
     return hubRegister.register(
-        createRegisterRequest(name, streetAddress, detailAddress, UUID.randomUUID()), requestId);
+        createRegisterRequest(name, streetAddress, detailAddress, UUID.randomUUID()),
+        requestId,
+        "requestUser");
   }
 }
