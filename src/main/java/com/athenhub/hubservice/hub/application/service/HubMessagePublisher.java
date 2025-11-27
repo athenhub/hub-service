@@ -3,6 +3,7 @@ package com.athenhub.hubservice.hub.application.service;
 import com.athenhub.hubservice.hub.domain.event.HubDeleted;
 import com.athenhub.hubservice.hub.domain.event.HubManagerChanged;
 import com.athenhub.hubservice.hub.domain.event.HubRegistered;
+import com.athenhub.hubservice.hub.domain.event.HubRouteUpdated;
 import com.athenhub.hubservice.hub.domain.event.HubUpdated;
 
 /**
@@ -45,4 +46,11 @@ public interface HubMessagePublisher {
    * @param event 변경된 관리자 정보를 담은 {@link HubManagerChanged} 이벤트
    */
   void publish(HubManagerChanged event);
+
+  /**
+   * 허브 경로(HubRoute)기 변경되었을 때 발행되는 이벤트 메세지를 전송한다.
+   *
+   * @param event {@link HubRouteUpdated} 이벤트
+   */
+  void publish(HubRouteUpdated event);
 }

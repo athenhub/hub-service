@@ -4,6 +4,7 @@ import com.athenhub.hubservice.hub.domain.Hub;
 import com.athenhub.hubservice.hub.domain.HubRoute;
 import com.athenhub.hubservice.hub.domain.HubRouteRepository;
 import com.athenhub.hubservice.hub.domain.dto.RouteResponse;
+import com.athenhub.hubservice.hub.domain.event.HubRouteUpdated;
 import com.athenhub.hubservice.hub.domain.service.RouteCalculator;
 import com.athenhub.hubservice.hub.domain.vo.HubId;
 import java.util.List;
@@ -36,6 +37,7 @@ public class HubRouteService {
   private final HubFinder hubFinder;
   private final HubRouteRepository hubRouteRepository;
   private final RouteCalculator routeCalculator;
+  private final HubMessagePublisher hubMessagePublisher;
 
   /**
    * 신규 허브 등록 시 기존 모든 활성 허브와의 경로를 계산하여 저장한다.
@@ -56,6 +58,8 @@ public class HubRouteService {
             .toList();
 
     hubRouteRepository.saveAll(newRoutes);
+
+    hubMessagePublisher.publish(HubRouteUpdated.of(hubId));
   }
 
   /**
@@ -90,6 +94,10 @@ public class HubRouteService {
   public void deactivateRoutesForHub(UUID hubId, String deletedBy) {
     List<HubRoute> routes = hubRouteRepository.findAllByHubId(HubId.of(hubId));
     routes.forEach(route -> route.delete(deletedBy));
+
+    hubRouteRepository.saveAll(routes);
+
+    hubMessagePublisher.publish(HubRouteUpdated.of(hubId));
   }
 
   /**

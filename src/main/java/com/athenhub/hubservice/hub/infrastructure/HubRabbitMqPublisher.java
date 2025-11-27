@@ -5,6 +5,7 @@ import com.athenhub.hubservice.hub.application.service.HubMessagePublisher;
 import com.athenhub.hubservice.hub.domain.event.HubDeleted;
 import com.athenhub.hubservice.hub.domain.event.HubManagerChanged;
 import com.athenhub.hubservice.hub.domain.event.HubRegistered;
+import com.athenhub.hubservice.hub.domain.event.HubRouteUpdated;
 import com.athenhub.hubservice.hub.domain.event.HubUpdated;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -46,5 +47,10 @@ public class HubRabbitMqPublisher implements HubMessagePublisher {
   @Override
   public void publish(HubManagerChanged event) {
     rabbitTemplate.convertAndSend(rabbitProperties.getExchange(), "managerChanged", event);
+  }
+
+  @Override
+  public void publish(HubRouteUpdated event) {
+    rabbitTemplate.convertAndSend(rabbitProperties.getExchange(), "routeUpdated", event);
   }
 }
