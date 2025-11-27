@@ -4,7 +4,6 @@ import com.athenhub.hubservice.hub.domain.vo.HubManagerId;
 import com.athenhub.hubservice.hub.domain.vo.HubManagerInfo;
 import com.athenhub.hubservice.hub.infrastructure.MemberRole;
 import com.athenhub.hubservice.hub.infrastructure.MemberStatus;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
@@ -16,29 +15,23 @@ import java.util.UUID;
  * @param name 회원 이름
  * @param username 시스템 계정명
  * @param slackId Slack ID
- * @param organizationName 소속 조직명
  * @param role 회원 역할 {@link MemberRole}
  * @param status 계정 상태
- * @param createdAt 계정 생성 일시
- * @param updatedAt 계정 수정 일시
- * @param deletedAt 계정 삭제 일시 (삭제되지 않았으면 {@code null})
- * @param deletedBy 계정 삭제 수행자 (삭제되지 않았으면 {@code null})
- * @param isActivated 활성 여부
+ * @param organizationName 소속 조직명
+ * @param organizationType 소속 타입
+ * @param isActivated 활성화 여부
  * @author 김형섭
- * @since 1.0.0ss
+ * @since 1.0.0
  */
 public record MemberInfo(
     UUID id,
     String name,
     String username,
     String slackId,
-    String organizationName,
     MemberRole role,
     MemberStatus status,
-    LocalDateTime createdAt,
-    LocalDateTime updatedAt,
-    LocalDateTime deletedAt,
-    String deletedBy,
+    String organizationName,
+    String organizationType,
     boolean isActivated) {
   /**
    * 회원 정보를 기반으로 {@link HubManagerInfo} 객체를 생성하여 반환한다.

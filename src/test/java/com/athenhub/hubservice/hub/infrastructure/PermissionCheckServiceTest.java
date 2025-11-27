@@ -64,13 +64,10 @@ class PermissionCheckServiceTest {
         "테스트 회원",
         "testMember",
         "testSlackId",
-        "서울 물류",
         role,
         status,
-        LocalDateTime.now(),
-        LocalDateTime.now(),
-        deletedAt,
-        null,
+        "서울 물류",
+        "HUB",
         isActivated);
   }
 }

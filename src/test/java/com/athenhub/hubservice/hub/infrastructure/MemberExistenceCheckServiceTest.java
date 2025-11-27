@@ -23,7 +23,7 @@ class MemberExistenceCheckServiceTest {
   void memberExistsReturnTrue() {
     MemberInfo member =
         createMemberInfo(
-            UUID.randomUUID(), MemberRole.HUB_MANAGER, MemberStatus.ACTIVATED, null, true);
+            UUID.randomUUID(), MemberRole.HUB_MANAGER, MemberStatus.ACTIVATED, true);
 
     when(memberServiceClient.getMemberInfo(member.id())).thenReturn(member);
 
@@ -42,7 +42,7 @@ class MemberExistenceCheckServiceTest {
   void memberDeactivatedReturnFalse() {
     MemberInfo member =
         createMemberInfo(
-            UUID.randomUUID(), MemberRole.MASTER_MANAGER, MemberStatus.DEACTIVATED, null, false);
+            UUID.randomUUID(), MemberRole.MASTER_MANAGER, MemberStatus.DEACTIVATED, false);
 
     when(memberServiceClient.getMemberInfo(member.id())).thenReturn(member);
 
@@ -53,20 +53,16 @@ class MemberExistenceCheckServiceTest {
       UUID memberId,
       MemberRole role,
       MemberStatus status,
-      LocalDateTime deletedAt,
       boolean isActivated) {
     return new MemberInfo(
         memberId,
         "테스트 회원",
         "testMember",
         "testSlackId",
-        "서울 물류",
         role,
         status,
-        LocalDateTime.now(),
-        LocalDateTime.now(),
-        deletedAt,
-        null,
+        "서울 물류",
+        "HUB",
         isActivated);
   }
 }
