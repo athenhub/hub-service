@@ -1,8 +1,8 @@
-package com.athenhub.hubservice.presentation.webapi;
+package com.athenhub.hubservice.hub.webapi;
 
 import com.athenhub.hubservice.hub.application.service.HubRouteService;
 import com.athenhub.hubservice.hub.domain.HubRoute;
-import com.athenhub.hubservice.presentation.webapi.dto.HubRouteResponse;
+import com.athenhub.hubservice.hub.webapi.dto.HubRouteResponse;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;

@@ -8,7 +8,7 @@ import com.athenhub.hubservice.MockUser;
 import com.athenhub.hubservice.hub.application.service.HubRouteService;
 import com.athenhub.hubservice.hub.domain.HubRoute;
 import com.athenhub.hubservice.hub.domain.vo.HubId;
-import com.athenhub.hubservice.presentation.webapi.dto.HubRouteResponse;
+import com.athenhub.hubservice.hub.webapi.dto.HubRouteResponse;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

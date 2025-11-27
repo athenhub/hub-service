@@ -2,9 +2,7 @@ package com.athenhub.hubservice.hub.domain.event;
 
 import java.util.UUID;
 
-/**
- * 허브 경로가 변경되었음을 나타내는 도메인 이벤트.
- */
+/** 허브 경로가 변경되었음을 나타내는 도메인 이벤트. */
 public record HubRouteUpdated(UUID requestId) {
 
   /**
