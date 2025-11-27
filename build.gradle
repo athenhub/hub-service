@@ -53,7 +53,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
     // docker-compose
-    developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
+//    developmentOnly 'org.springframework.boot:spring-boot-docker-compose'
 
     // loki
     implementation 'com.github.loki4j:loki-logback-appender:2.0.0'
@@ -75,7 +75,7 @@ dependencies {
     implementation 'org.postgresql:postgresql'
 
     // common
-    implementation 'com.athenhub:common-mvc:1.2.0'
+    implementation 'com.athenhub:common-mvc:1.4.1'
 
     // lombok
     compileOnly 'org.projectlombok:lombok'

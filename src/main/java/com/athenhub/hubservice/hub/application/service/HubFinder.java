@@ -3,6 +3,7 @@ package com.athenhub.hubservice.hub.application.service;
 import com.athenhub.hubservice.hub.domain.Hub;
 import com.athenhub.hubservice.hub.domain.dto.HubSearchCondition;
 import com.athenhub.hubservice.hub.domain.vo.HubManagerInfo;
+import java.util.List;
 import java.util.UUID;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,6 +31,13 @@ public interface HubFinder {
    * @return 조회된 {@link Hub} 엔티티
    */
   Hub find(UUID hubId);
+
+  /**
+   * 활성 상태의 허브를 모두 조회한다.
+   *
+   * @return 조회된 {@link Hub} 목록
+   */
+  List<Hub> findAllActive();
 
   /**
    * 전달받은 {@link HubSearchCondition} 기반으로 허브를 검색한다.

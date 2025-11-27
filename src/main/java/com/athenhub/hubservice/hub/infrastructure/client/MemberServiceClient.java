@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  * @author 김형섭
  * @since 1.0.0
  */
-@FeignClient("member-service")
+@FeignClient("192.168.0.13:9000/member-service")
 public interface MemberServiceClient {
   /**
    * 지정된 회원의 상세 정보를 조회한다.
@@ -22,6 +22,6 @@ public interface MemberServiceClient {
    * @param memberId 회원 식별자(UUID)
    * @return 회원 정보 객체 {@link MemberInfo}
    */
-  @GetMapping("v1/members/{memberId}")
+  @GetMapping("profile/{memberId}")
   MemberInfo getMemberInfo(@PathVariable("memberId") UUID memberId);
 }

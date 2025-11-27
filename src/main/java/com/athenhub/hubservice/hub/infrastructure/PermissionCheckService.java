@@ -3,7 +3,6 @@ package com.athenhub.hubservice.hub.infrastructure;
 import com.athenhub.hubservice.hub.domain.service.PermissionChecker;
 import com.athenhub.hubservice.hub.infrastructure.client.MemberServiceClient;
 import com.athenhub.hubservice.hub.infrastructure.dto.MemberInfo;
-import java.util.Objects;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -52,7 +51,6 @@ public class PermissionCheckService implements PermissionChecker {
    */
   private boolean isActiveMasterManager(MemberInfo member) {
     return MemberRole.MASTER_MANAGER.equals(member.role())
-        && Objects.isNull(member.deletedAt())
-        && MemberStatus.ACTIVATED.equals(member.status());
+        && member.isActivated();
   }
 }

@@ -12,7 +12,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * @author 김형섭
  * @since 1.0.0
  */
-@EnableFeignClients
 @SpringBootApplication
 public class HubServiceApplication {
 

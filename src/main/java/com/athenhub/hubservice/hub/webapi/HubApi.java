@@ -1,4 +1,4 @@
-package com.athenhub.hubservice.presentation.webapi;
+package com.athenhub.hubservice.hub.webapi;
 
 import com.athenhub.commonmvc.security.AuthenticatedUser;
 import com.athenhub.hubservice.hub.application.service.HubFinder;
@@ -9,12 +9,12 @@ import com.athenhub.hubservice.hub.domain.dto.HubRegisterRequest;
 import com.athenhub.hubservice.hub.domain.dto.HubSearchCondition;
 import com.athenhub.hubservice.hub.domain.dto.HubUpdateRequest;
 import com.athenhub.hubservice.hub.domain.vo.HubManagerInfo;
-import com.athenhub.hubservice.presentation.webapi.dto.HubDeleteResponse;
-import com.athenhub.hubservice.presentation.webapi.dto.HubFindResponse;
-import com.athenhub.hubservice.presentation.webapi.dto.HubManagerChangeRequest;
-import com.athenhub.hubservice.presentation.webapi.dto.HubManagerInfoResponse;
-import com.athenhub.hubservice.presentation.webapi.dto.HubRegisterResponse;
-import com.athenhub.hubservice.presentation.webapi.dto.HubUpdateResponse;
+import com.athenhub.hubservice.hub.webapi.dto.HubDeleteResponse;
+import com.athenhub.hubservice.hub.webapi.dto.HubFindResponse;
+import com.athenhub.hubservice.hub.webapi.dto.HubManagerChangeRequest;
+import com.athenhub.hubservice.hub.webapi.dto.HubManagerInfoResponse;
+import com.athenhub.hubservice.hub.webapi.dto.HubRegisterResponse;
+import com.athenhub.hubservice.hub.webapi.dto.HubUpdateResponse;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -154,8 +154,7 @@ public class HubApi {
    * <p>조회 권한은 MASTER_MANAGER, HUB_MANAGER, SHIPPING_AGENT, VENDOR_AGENT가 포함된다.
    *
    * @param hubId 조회할 허브의 식별자(UUID)
-   * @return 조회된 허브 관리자 정보를 담은 {@link
-   *     com.athenhub.hubservice.presentation.webapi.dto.HubManagerInfoResponse}
+   * @return 조회된 허브 관리자 정보를 담은 {@link HubManagerInfoResponse}
    */
   @PreAuthorize("hasAnyRole('MASTER_MANAGER', 'HUB_MANAGER', 'SHIPPING_AGENT', 'VENDOR_AGENT')")
   @GetMapping("/v1/hubs/{hubId}/manager")
