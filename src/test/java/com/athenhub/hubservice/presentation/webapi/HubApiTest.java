@@ -18,7 +18,7 @@ import com.athenhub.hubservice.hub.domain.dto.HubUpdateRequest;
 import com.athenhub.hubservice.hub.domain.service.MemberExistenceChecker;
 import com.athenhub.hubservice.hub.domain.service.PermissionChecker;
 import com.athenhub.hubservice.hub.domain.vo.HubManagerInfo;
-import com.athenhub.hubservice.presentation.webapi.dto.HubManagerChangeRequest;
+import com.athenhub.hubservice.hub.webapi.dto.HubManagerChangeRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.UUID;

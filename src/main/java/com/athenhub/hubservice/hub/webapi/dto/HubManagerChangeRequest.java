@@ -1,4 +1,4 @@
-package com.athenhub.hubservice.presentation.webapi.dto;
+package com.athenhub.hubservice.hub.webapi.dto;
 
 import java.util.UUID;
 
