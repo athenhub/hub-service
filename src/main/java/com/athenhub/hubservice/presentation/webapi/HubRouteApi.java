@@ -48,8 +48,26 @@ public class HubRouteApi {
    */
   @PreAuthorize("hasAnyRole('MASTER_MANAGER', 'HUB_MANAGER', 'SHIPPING_AGENT', 'VENDOR_AGENT')")
   @GetMapping("/v1/hubs/{hubId}/routes")
-  public List<HubRouteResponse> findAll(@PathVariable UUID hubId) {
+  public List<HubRouteResponse> findAllBy(@PathVariable UUID hubId) {
     List<HubRoute> routes = hubRouteService.findAllSourceBy(hubId);
+
+    return routes.stream().map(HubRouteResponse::from).toList();
+  }
+
+  /**
+   * 허브 경로 목록 조회.
+   *
+   * <p>활성 상태의 모든 경로 정보를 조회하고, {@link HubRouteResponse} 리스트로 변환하여 반환한다.
+   *
+   * <p>접근 권한은 {@code MASTER_MANAGER}, {@code HUB_MANAGER}, {@code SHIPPING_AGENT}, {@code
+   * VENDOR_AGENT} 역할을 가진 사용자에게 허용된다.
+   *
+   * @return 허브 경로 목록을 DTO 형태로 반환
+   */
+  @PreAuthorize("hasAnyRole('MASTER_MANAGER', 'HUB_MANAGER', 'SHIPPING_AGENT', 'VENDOR_AGENT')")
+  @GetMapping("/v1/routes")
+  public List<HubRouteResponse> findAll() {
+    List<HubRoute> routes = hubRouteService.findAllByActive();
 
     return routes.stream().map(HubRouteResponse::from).toList();
   }

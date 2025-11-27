@@ -66,4 +66,11 @@ public interface HubRouteRepository extends Repository<HubRoute, Long> {
         AND r.deletedAt IS NULL
       """)
   List<HubRoute> findAllByHubId(HubId hubId);
+
+  /**
+   * 활성 상태의 모든 허브 경로를 조회한다.
+   *
+   * @return 조회된 {@link HubRoute} 목록
+   */
+  List<HubRoute> findAllByDeletedAtIsNull();
 }

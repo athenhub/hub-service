@@ -72,6 +72,16 @@ public class HubRouteService {
   }
 
   /**
+   * 활성상태의 모든 허브 경로를 조회한다.
+   *
+   * @return 조회된 허브 경로 목록
+   */
+  @Transactional(readOnly = true)
+  public List<HubRoute> findAllByActive() {
+    return hubRouteRepository.findAllByDeletedAtIsNull();
+  }
+
+  /**
    * 지정한 허브와 관련된 모든 허브 경로를 비활성화 처리한다.
    *
    * @param hubId 대상 허브의 식별자
